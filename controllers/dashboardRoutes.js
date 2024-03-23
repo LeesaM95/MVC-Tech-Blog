@@ -1,14 +1,25 @@
 const router = require('express').Router();
 const { User, Blog, Comment } = require('../models');
-const withAuth = require('../utils');
+const withAuth = require('../utils/auth');
 
 // get all posts from one user
-router.get('/', withAuth, async (req, res) => {
+router.get('/dashboard/posts', withAuth, async (req, res) => {
     try {
         const userPosts = await Blog.findAll({
-            include: [{ model: User,
-                    attributes: ['username']}],
             where: { user_id: req.session.user_id },
+            include: [
+                {model: Comment,
+                attributes: ['id', 'commentBody', 'blog_id', 'user_id'],
+            include: {
+                model: User,
+                attributes: ['username']
+            }
+        },
+        {
+            model: User,
+            attributes: ['username']
+        }
+            ]
         });
         const postData = userPosts.map((post) => post.get({ plain: true}));
         res.render('dashboard', {

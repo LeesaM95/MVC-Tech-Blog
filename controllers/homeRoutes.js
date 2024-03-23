@@ -11,7 +11,7 @@ router.get('/', withAuth, async (req, res) => {
 
     const users = userData.map((data) => data.get({ plain: true }));
 
-    res.render('homepage', {
+    res.json('homepage', {
       users,
       logged_in: req.session.logged_in,
     });
@@ -26,7 +26,7 @@ router.get('/login', (req, res) => {
     return;
   }
 
-  res.render('login');
+  res.json('login');
 });
 
 router.get("/signup", (req, res) => {
@@ -80,7 +80,7 @@ router.get("/newComment/:id", async (req, res) => {
   res.render("comment", { post, comment, logged_id: req.session.logged_in});
 });
 
-router.render("/updatePost/:id", async (req, res) => {
+router.get("/updatePost/:id", async (req, res) => {
   const postData = await Blog.findOne({
     where: { id: req.params.id },
     include: [User],
