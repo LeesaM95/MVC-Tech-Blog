@@ -1,0 +1,38 @@
+<div class="card w-50 p-3 m-3">
+    <div class="card-title postTitle">
+        <h3>{{postTitle}}</h3>
+    </div>
+    <div class="card-body post-body">
+        <p>{{post.body}}</p>
+    </div>
+    <p class="text-end p-2 m-2">
+        Posted by {{post.user.username}}
+        on
+        {{format_date post.dateCreated}}
+    </p>
+</div>
+{{#each Comment as |comment|}}
+<div class="card w-50 p-3 m-3">
+    <div class="card-body post-body">
+        <p>{{comment.body}}</p>
+        <p>- {{comment.username}}, {{format_date comment.createdAt}}</p>
+    </div>
+</div>
+{{/each}}
+
+<div id="comment-box">
+    <label for="newComment" class="form-label">
+        <h4>Add A Comment</h4>
+    </label>
+    <form action="/api/posts/newComment/{{post.id}}" method="post">
+        <div class="input-group flex-nowrap mb-3">
+            <input type="text" class="form-control" placeholder="Username" aria-label="Commenter's username" />
+        </div>
+        <div class="input-group flex-nowrap input-group-lg">
+            <input type="text" class="form-control" aria-label="user's comment" />
+        </div>
+        <div class="col-auto">
+            <button type="submit" id="addcomment-Btn" class="btn btn-info mb-3">Add Comment</button>
+        </div>
+    </form>
+</div>

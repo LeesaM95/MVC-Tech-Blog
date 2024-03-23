@@ -1,0 +1,19 @@
+{{!-- i want this structured with the same diameters as a post box. 
+I want to make sure only logged in users can edit their post
+I want ONLY THE USER WHO PUBLISHED THE POST to be able to edit it
+I want the previous text to stay in place and update when a submit button is clicked
+I want users to be able to delete their post from the edit menu --}}
+
+<div class="card w-50 p-3 m-3">
+    <div class="card-title">
+    <h1>Edit Post</h1>
+    </div>
+    <form>
+        <input type="text" id="editPost" class="form-control" name="title" value="{{post.title}}" /> 
+        <input type="text" id="editpost-box" class="form-control" value="{{post.body}}"/>
+        <div class="btn-group p-3" role="group">
+            <button type="submit" id="editpost-Btn" class="btn btn-primary mb-3" formaction="/api/posts/editPost/{{post.id}}">Edit Post</button>
+            <button type="submit" id="deletepost-Btn" class="btn btn-danger mb-3" formaction="/api/posts/deletePost/{{post.id}}">Delete Post</button>
+        </div>
+    </form>
+</div>

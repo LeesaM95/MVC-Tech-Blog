@@ -1,0 +1,30 @@
+{{#if logged_in}}
+{{#each blog as |posts|}}
+<div class="card w-50 p-3 m-3">
+    <div class="card-body post-body">
+        <div class="card-title postTitle">
+            <a href="/editPost/{{blog.id}}">
+                <h3>{{postTitle}}</h3>
+            </a>
+            <p class="text-end p-2 m-2">Posted by {{post.user.username}}
+                on
+                {{format_date post.dateCreated}}</p>
+        </div>
+    </div>
+</div>
+{{/each}}
+
+<div id="newPostCard" class="h-25 d-inline-block">
+    <a href="/newPost">
+        <button id="newpostBtn" class="btn btn-info" type="button">New Post</button>
+    </a>
+</div>
+{{else}}
+<div class="card">
+    <div class="card-body">
+        <div class="card-text text-center fw-bold">
+            <h2>Please Login</h2>
+        </div>
+    </div>
+</div>
+{{/if}}

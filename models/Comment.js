@@ -1,33 +1,47 @@
-const { Schema } = require('mongoose');
-const dateFormat  = require('../utils/dateFormat');
+const sequelize = require('../config/connection');
+const { Model, DataTypes } = require('sequelize');
 
-const commentSchema = new Schema({
-    commentId: {
-        type: Schema.Types.ObjectId,
-        default: () => new Types.ObjectId(),
+class Comment extends Model {}
+
+Comment.init(
+    {
+    id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true,
     },
     commentBody: {
-        type: String,
-        required: true,
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            len: [1]
+        },
     },
-    username: {
-        type: String,
+    user_id: {
+        type: DataTypes.INTEGER,
         required: true,
+        references: {
+            model: 'user',
+            key: 'id',
+        }
     },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-        get: (timestamp) => dateFormat(timestamp),
+    blog_id: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: 'blog',
+            key: 'id',
+        },
     },
 },
     {
-        toJSON: {
-            getters: true,
-        },
-        id: false,
+        sequelize,
+        freezeTableName: true,
+        underscored: true,
+        modelName: 'comment',
     },
 );
 
 
 
-module.exports = commentSchema;
+module.exports = Comment;

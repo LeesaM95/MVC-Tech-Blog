@@ -1,6 +1,7 @@
 const { Model, DataTypes } = require('sequelize');
+const dateFormat  = require('../utils/dateFormat');
 const sequelize = require('../config/connection');
-const commentSchema = require('./comment')
+
 
 class Blog extends Model {}
 
@@ -18,11 +19,13 @@ Blog.init(
         },
         post: {
             type: DataTypes.STRING,
+            allowNull: false,
         },
         dateCreated: {
             type: DataTypes.DATE,
             allowNull: false,
-            defaultValue: DataTypes.NOW,
+            defaultValue: Date.now,
+            get: (timestamp) => dateFormat(timestamp)
         },
         user_id: {
             type: DataTypes.INTEGER,
@@ -31,9 +34,13 @@ Blog.init(
                 key: 'id',
             },
         },
-        comment: [
-            commentSchema
-        ],     
+        comment_id: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: 'comment',
+                key: 'id',
+            },
+        },
         
     },
     {
@@ -45,16 +52,5 @@ Blog.init(
       }
 );
 
-commentSchema.virtual("comments").get(function () {
-    let comments = commentSchema;
-        if(comments !== 'undefined') {
-            console.log(comments.length)
-        } else {
-            return this.comments.length;
-        }
-       
-    });
-    
-    const Blog = Model("Blog", blogSchema);
     
     module.exports = Blog;

@@ -1,10 +1,32 @@
-{{#each users as |user| }}
-<div class="row align-center mb-5">
-  <div class="col-md-6">
-    <h2> {{user.name}}</h2>
+{{#each blog as |post| }}
+{{!-- I want the homepage to display user posts and comments --}}
+
+<div id="postContainer" class="container-md m-3 p-3">
+  <div class="row">
+    <div class="col">
+      <div class="display-6" id="postTitle">
+        <a href="/posts/{{post.id}}">{{post.title}}</a>
+      </div>
+      <div>
+        <p>
+          {{post.body}}
+        </p>
+      </div>
+      <div class="text-end p-2 m-2">
+        <p>
+          Posted By {{post.user.username}} on {{format_date post.createdAt}}
+        </p>
+      </div>
+    </div>
   </div>
-  <div class="col-md-6">
-    <h3><a href="mailto:{{user.email}}">{{user.email}}</a></h3>
-  </div>
+</div>
+{{/each}}
+
+{{#each Comment as |comment|}}
+<div class="card w-50 p-3 m-3">
+    <div class="card-body post-body">
+        <p>{{comment.body}}</p>
+        <p>- {{comment.username}}, {{format_date comment.createdAt}}</p>
+    </div>
 </div>
 {{/each}}
